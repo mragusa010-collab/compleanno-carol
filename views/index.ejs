@@ -96,7 +96,7 @@
       justify-content: center;
       overflow: hidden;
       animation: spin 3s linear infinite;
-      animation-play-state: paused; /* In pausa finché la musica non suona */
+      animation-play-state: paused;
     }
 
     .vinyl-disk img {
@@ -108,7 +108,7 @@
 
     .vinyl-center {
       position: absolute;
-      width: 10px;
+      width: 100px;
       height: 10px;
       background: white;
       border-radius: 50%;
@@ -125,7 +125,7 @@
   <div id="hearts-container"></div>
   <div class="progress-bar" id="progress-bar"></div>
 
-  <audio id="bg-music" src="/audio/chicchi-di-caffe.mp3" loop></audio>
+  <audio id="bg-music" src="/audio/chicchi-di-caffe.mp3" preload="auto" playsinline loop></audio>
 
   <main class="glass-card" id="site-pin-box">
     <div class="badge">🔒 Area Riservata</div>
@@ -145,7 +145,7 @@
   <main class="glass-card" id="main-content">
     <div class="badge">✦ Tanti Auguri Cucciola ✦</div>
     <h1>Questo è il mio regalo di compleanno per te... 🎀</h1>
-    <p>Con tante bestemmie sono riuscito a crearti questo pensiero per te. Sei pronta a fare questo piccolo viaggio insieme?</p>
+    <p>Quello che hai visto prima all'interno del pacco era solo un piccolo pensiero che ti ho fatto, ma il vero regalo inizia ora. Quello che vedi qui sono tanto tempo di prove e ancora prove per farlo funzionare ma sopratutto una specie di album con tutti i nostri ricordi e i nostri momenti migliori. Sei pronta a fare questo piccolo viaggio insieme?</p>
     <a href="/ricordi" class="btn">Inizia il viaggio ✨</a>
   </main>
 
@@ -180,8 +180,9 @@
         mainContent.style.display = "block";
         progressBar.style.width = "20%";
 
-        // Mostra il widget e avvia la musica
         widget.style.display = "flex";
+        
+        // Tentativo di riproduzione audio garantito dall'evento click
         playMusic();
       } else {
         errorMsg.style.display = "block";
@@ -193,14 +194,16 @@
       audio.play().then(() => {
         vinyl.style.animationPlayState = "running";
       }).catch(err => {
-        console.log("Riproduzione automatica bloccata dal browser, si avvierà al primo click.");
+        console.log("Autoplay bloccato. Tocca il widget in basso a destra per riprodurre.");
+        vinyl.style.animationPlayState = "paused";
       });
     }
 
     function togglePlay() {
       if (audio.paused) {
-        audio.play();
-        vinyl.style.animationPlayState = "running";
+        audio.play().then(() => {
+          vinyl.style.animationPlayState = "running";
+        });
       } else {
         audio.pause();
         vinyl.style.animationPlayState = "paused";
