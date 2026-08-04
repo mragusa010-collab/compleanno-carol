@@ -8,7 +8,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Gestione dei file statici (per servire immagini, css e js da /public)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 const siteData = {
   nome: "Piccola",
