@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Gestione dei file statici (per servire immagini da /public/img)
+// Gestione dei file statici (per servire immagini, css e js da /public)
 app.use(express.static(path.join(__dirname, 'public')));
 
 const siteData = {
@@ -37,6 +37,6 @@ app.get('/premessa', (req, res) => res.render('premessa', { data: siteData }));
 app.get('/domanda', (req, res) => res.render('domanda', { data: siteData }));
 app.get('/festa', (req, res) => res.render('festa', { data: siteData }));
 
-app.listen(PORT, () => {
-  console.log(`✨ Server attivo su http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✨ Server attivo sulla porta ${PORT}`);
 });
