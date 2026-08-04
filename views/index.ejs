@@ -2,27 +2,95 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Per Te 🧸💖</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: linear-gradient(135deg, #fff5f5 0%, #ffe3e8 50%, #f7d6e0 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; color: #5c3d46; text-align: center; }
-    .progress-bar { position: fixed; top: 0; left: 0; width: 20%; height: 6px; background: linear-gradient(90deg, #ff8fa3, #ff4d6d); }
+    .progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 6px; background: linear-gradient(90deg, #ff8fa3, #ff4d6d); transition: width 0.4s ease; }
     .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 2px solid #ffffff; border-radius: 32px; padding: 40px 25px; max-width: 420px; width: 100%; box-shadow: 0 20px 40px rgba(220, 100, 130, 0.15); }
     .badge { display: inline-block; background: #ffe3e8; color: #d81159; font-size: 0.85rem; font-weight: 700; padding: 8px 16px; border-radius: 20px; margin-bottom: 20px; }
     h1 { font-size: 1.8rem; color: #4a2833; margin-bottom: 15px; }
     p { font-size: 1rem; color: #6c4b55; line-height: 1.6; margin-bottom: 30px; }
-    .btn { display: inline-block; background: linear-gradient(135deg, #ff8fa3, #ff4d6d); color: white; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; box-shadow: 0 10px 22px rgba(255, 77, 109, 0.35); }
+    .btn { display: inline-block; background: linear-gradient(135deg, #ff8fa3, #ff4d6d); color: white; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; box-shadow: 0 10px 22px rgba(255, 77, 109, 0.35); border: none; cursor: pointer; }
+
+    /* STILI SCHERMATA PIN */
+    .pin-input {
+      width: 100%;
+      max-width: 220px;
+      padding: 12px;
+      font-size: 1.3rem;
+      text-align: center;
+      letter-spacing: 5px;
+      border: 2px solid #ffb3c1;
+      border-radius: 16px;
+      outline: none;
+      color: #ff4d6d;
+      font-weight: 700;
+      background: #fff;
+      margin-bottom: 15px;
+    }
+    .pin-input:focus { border-color: #ff4d6d; }
+    .error-msg { color: #d81159; font-size: 0.88rem; margin-bottom: 12px; display: none; font-weight: 600; }
+    .hint-text { font-size: 0.85rem; color: #88626e; margin-top: 18px; font-style: italic; }
+    
+    /* NASCONDE IL CONTENUTO PRINCIPALE FINCHÉ NON SI SBLOCCA */
+    #main-content { display: none; }
   </style>
 </head>
 <body>
-  <div class="progress-bar"></div>
-  <main class="glass-card">
+  <div id="hearts-container"></div>
+  <div class="progress-bar" id="progress-bar"></div>
+
+  <main class="glass-card" id="site-pin-box">
+    <div class="badge">🔒 Area Riservata</div>
+    <h1>Un Posto Segreto 🔑</h1>
+    <p>Inserisci il PIN speciale a 6 cifre per sbloccare il tuo regalo...</p>
+    
+    <div>
+      <input type="password" id="site-pin-input" class="pin-input" maxlength="6" placeholder="******" pattern="\d*">
+    </div>
+    
+    <p class="error-msg" id="site-error-msg">PIN errato! Riprova ❤️</p>
+    <button class="btn" onclick="checkSitePin()">Entra 💖</button>
+    
+    <p class="hint-text">💡 Suggerimento: La data del nostro primo bacio (GGMMAA)</p>
+  </main>
+
+  <main class="glass-card" id="main-content">
     <div class="badge">✦ Tanti Auguri Cucciola ✦</div>
     <h1>Questo è il mio regalo di compleanno per te... 🎀</h1>
     <p>Con tante bestemmie sono riuscito a crearti questo pensiero per te. Sei pronta a fare questo piccolo viaggio insieme?</p>
     <a href="/ricordi" class="btn">Inizia il viaggio ✨</a>
   </main>
+
+  <script src="/js/script.js"></script>
+  <script>
+    function checkSitePin() {
+      const pinCorrect = "280726";
+      const userPin = document.getElementById('site-pin-input').value;
+      const errorMsg = document.getElementById('site-error-msg');
+      const pinBox = document.getElementById('site-pin-box');
+      const mainContent = document.getElementById('main-content');
+      const progressBar = document.getElementById('progress-bar');
+
+      if (userPin === pinCorrect) {
+        errorMsg.style.display = "none";
+        pinBox.style.display = "none";
+        mainContent.style.display = "block";
+        progressBar.style.width = "20%";
+      } else {
+        errorMsg.style.display = "block";
+        document.getElementById('site-pin-input').value = "";
+      }
+    }
+
+    document.getElementById('site-pin-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        checkSitePin();
+      }
+    });
+  </script>
 </body>
 </html>
