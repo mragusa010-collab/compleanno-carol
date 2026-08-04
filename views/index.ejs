@@ -15,94 +15,26 @@
     p { font-size: 1rem; color: #6c4b55; line-height: 1.6; margin-bottom: 30px; }
     .btn { display: inline-block; background: linear-gradient(135deg, #ff8fa3, #ff4d6d); color: white; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; box-shadow: 0 10px 22px rgba(255, 77, 109, 0.35); border: none; cursor: pointer; }
 
-    /* STILI SCHERMATA PIN */
-    .pin-input {
-      width: 100%;
-      max-width: 220px;
-      padding: 12px;
-      font-size: 1.3rem;
-      text-align: center;
-      letter-spacing: 5px;
-      border: 2px solid #ffb3c1;
-      border-radius: 16px;
-      outline: none;
-      color: #ff4d6d;
-      font-weight: 700;
-      background: #fff;
-      margin-bottom: 15px;
-    }
+    /* STILI PIN */
+    .pin-input { width: 100%; max-width: 220px; padding: 12px; font-size: 1.3rem; text-align: center; letter-spacing: 5px; border: 2px solid #ffb3c1; border-radius: 16px; outline: none; color: #ff4d6d; font-weight: 700; background: #fff; margin-bottom: 15px; }
     .pin-input:focus { border-color: #ff4d6d; }
     .error-msg { color: #d81159; font-size: 0.88rem; margin-bottom: 12px; display: none; font-weight: 600; }
     .hint-text { font-size: 0.85rem; color: #88626e; margin-top: 18px; font-style: italic; }
     
-    /* GESTIONE SEZIONI (NASCOSTE DI DEFAULT) */
+    /* GESTIONE SEZIONI MULTIPLE SENZA RICARICARE LA PAGINA */
     .page-section { display: none; }
     .page-section.active { display: block; }
 
-    /* WIDGET MUSICA IN BASSO A DESTRA */
-    .music-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      border-radius: 30px;
-      padding: 8px 14px 8px 10px;
-      display: none;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-      z-index: 1000;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.2s ease;
-    }
-
+    /* WIDGET MUSICALE PERMANENTE */
+    .music-widget { position: fixed; bottom: 20px; right: 20px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 30px; padding: 8px 14px 8px 10px; display: none; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); z-index: 1000; cursor: pointer; user-select: none; transition: transform 0.2s ease; }
     .music-widget:active { transform: scale(0.95); }
-
-    .music-info {
-      display: flex;
-      flex-direction: column;
-      text-align: right;
-    }
-
+    .music-info { display: flex; flex-direction: column; text-align: right; }
     .music-title { font-size: 0.8rem; font-weight: 700; color: #4a2833; line-height: 1.1; }
     .music-artist { font-size: 0.7rem; color: #ff4d6d; font-weight: 600; }
-
-    /* DISCO CHE GIRA */
-    .vinyl-disk {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #111;
-      border: 2px solid #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      animation: spin 3s linear infinite;
-      animation-play-state: paused;
-    }
-
+    .vinyl-disk { width: 38px; height: 38px; border-radius: 50%; background: #111; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; animation: spin 3s linear infinite; animation-play-state: paused; }
     .vinyl-disk img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-
-    .vinyl-center {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: white;
-      border-radius: 50%;
-      border: 2px solid #ff4d6d;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+    .vinyl-center { position: absolute; width: 10px; height: 10px; background: white; border-radius: 50%; border: 2px solid #ff4d6d; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -134,15 +66,14 @@
       <div class="badge">✦ Tanti Auguri Cucciola ✦</div>
       <h1>Questo è il mio regalo di compleanno per te... 🎀</h1>
       <p>Quello che hai visto prima all'interno del pacco era solo un piccolo pensiero che ti ho fatto, ma il vero regalo inizia ora. Quello che vedi qui sono tanto tempo di prove e ancora prove per farlo funzionare ma sopratutto una specie di album con tutti i nostri ricordi e i nostri momenti migliori. Sei pronta a fare questo piccolo viaggio insieme?</p>
-      <button class="btn" onclick="showSection('sec-ricordi', '50%')">Inizia il viaggio ✨</button>
+      
+      <button class="btn" onclick="goToRicordi()">Inizia il viaggio ✨</button>
     </div>
 
     <div id="sec-ricordi" class="page-section">
-      <div class="badge">📸 I Nostri Ricordi</div>
-      <h1>I nostri momenti migliori 💖</h1>
-      <p>Qui puoi inserire le vostre foto, i vostri aneddoti o i ricordi più belli insieme!</p>
-      <br>
-      <button class="btn" onclick="showSection('sec-home', '20%')">⬅️ Torna Indietro</button>
+      <div id="ricordi-content">
+        <p>Caricamento dei ricordi in corso...</p>
+      </div>
     </div>
 
   </main>
@@ -164,20 +95,13 @@
     const vinyl = document.getElementById('vinyl-disk');
     const widget = document.getElementById('music-widget');
 
-    // Funzione per passare da una schermata all'altra senza ricaricare la pagina
     function showSection(sectionId, progressWidth) {
-      document.querySelectorAll('.page-section').forEach(sec => {
-        sec.classList.remove('active');
-      });
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(sectionId).classList.add('active');
-      
-      if (progressWidth) {
-        document.getElementById('progress-bar').style.width = progressWidth;
-      }
+      if (progressWidth) document.getElementById('progress-bar').style.width = progressWidth;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Verifica PIN e avvio Musica
     function checkSitePin() {
       const pinCorrect = "280726";
       const userPin = document.getElementById('site-pin-input').value;
@@ -185,17 +109,13 @@
 
       if (userPin === pinCorrect) {
         errorMsg.style.display = "none";
-        
-        // Passa alla schermata di benvenuto
         showSection('sec-home', '20%');
 
-        // Mostra il widget e fa partire la musica
         widget.style.display = "flex";
         audio.load();
         audio.play().then(() => {
           vinyl.style.animationPlayState = "running";
         }).catch(err => {
-          console.log("Riproduzione bloccata dal browser, si avvierà al click:", err);
           vinyl.style.animationPlayState = "paused";
         });
       } else {
@@ -204,23 +124,37 @@
       }
     }
 
-    // Play/Pausa manuale
+    // Carica il contenuto reale della tua pagina /ricordi mantenendo attiva la musica
+    function goToRicordi() {
+      fetch('/ricordi')
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          // Prende il contenuto vero della tua pagina dei ricordi (compresi i tuoi elementi e CSS)
+          const content = doc.querySelector('.glass-card') || doc.body;
+          document.getElementById('ricordi-content').innerHTML = content.innerHTML;
+          
+          showSection('sec-ricordi', '50%');
+        })
+        .catch(err => {
+          // Fallback nel caso la rotta non risponda
+          showSection('sec-ricordi', '50%');
+        });
+    }
+
     function togglePlay() {
       if (audio.paused) {
-        audio.play().then(() => {
-          vinyl.style.animationPlayState = "running";
-        });
+        audio.play().then(() => vinyl.style.animationPlayState = "running");
       } else {
         audio.pause();
         vinyl.style.animationPlayState = "paused";
       }
     }
 
-    // Invio con tasto Enter
     document.getElementById('site-pin-input').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        checkSitePin();
-      }
+      if (e.key === 'Enter') checkSitePin();
     });
   </script>
 </body>
