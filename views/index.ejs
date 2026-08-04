@@ -108,7 +108,7 @@
 
     .vinyl-center {
       position: absolute;
-      width: 100px;
+      width: 10px;
       height: 10px;
       background: white;
       border-radius: 50%;
@@ -125,7 +125,7 @@
   <div id="hearts-container"></div>
   <div class="progress-bar" id="progress-bar"></div>
 
-  <audio id="bg-music" src="/audio/chicchi-di-caffe.mp3" preload="auto" playsinline loop></audio>
+  <audio id="bg-music" src="/audio/sparks.mp3" preload="auto" playsinline loop></audio>
 
   <main class="glass-card" id="site-pin-box">
     <div class="badge">🔒 Area Riservata</div>
@@ -151,11 +151,11 @@
 
   <div class="music-widget" id="music-widget" onclick="togglePlay()">
     <div class="music-info">
-      <span class="music-title">Chicchi di caffè ☕</span>
-      <span class="music-artist">Tony Boy</span>
+      <span class="music-title">Sparks ✨</span>
+      <span class="music-artist">Coldplay</span>
     </div>
     <div class="vinyl-disk" id="vinyl-disk">
-      <img src="https://i.scdn.co/image/ab67616d0000b27341bb81aa06a1bd8b007d4b4a" alt="Tony Boy">
+      <img src="https://i.scdn.co/image/ab67616d0000b273e0215034375b642646b14644" alt="Coldplay - Parachutes">
       <div class="vinyl-center"></div>
     </div>
   </div>
@@ -182,7 +182,6 @@
 
         widget.style.display = "flex";
         
-        // Tentativo di riproduzione audio garantito dall'evento click
         playMusic();
       } else {
         errorMsg.style.display = "block";
