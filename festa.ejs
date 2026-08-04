@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sì! 🎉💖✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: linear-gradient(135deg, #fff5f5 0%, #ffe3e8 50%, #f7d6e0 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; color: #5c3d46; text-align: center; }
+    .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 2px solid white; border-radius: 32px; padding: 40px 25px; max-width: 420px; width: 100%; box-shadow: 0 20px 40px rgba(220, 100, 130, 0.15); }
+    .emoji { font-size: 4rem; margin-bottom: 10px; }
+    h1 { font-family: 'Sacramento', cursive; font-size: 3.5rem; color: #ff4d6d; line-height: 1; margin-bottom: 10px; }
+    h2 { font-size: 1.3rem; color: #4a2833; margin-bottom: 15px; }
+    p { font-size: 0.98rem; color: #6c4b55; line-height: 1.6; margin-bottom: 30px; }
+    .btn { display: inline-block; background: rgba(255, 255, 255, 0.9); color: #6c4b55; border: 1px solid white; padding: 14px 28px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main class="glass-card">
+    <div class="emoji">🥳💖✨</div>
+    <h1>EVVIVA! 🥳</h1>
+    <h2>Sapevo che avresti detto di SÌ!</h2>
+    <p>Buon Compleanno amore mio! Non vedo l'ora di riempire ogni singolo giorno di felicità insieme a te! 🎀✨</p>
+    <a href="/" class="btn">Rivivi la magia 🔄</a>
+  </main>
+
+  <script>
+    window.onload = () => {
+      confetti({ particleCount: 500, spread: 70, origin: { y: 0.6 } });
+    };
+  </script>
+</body>
+</html>

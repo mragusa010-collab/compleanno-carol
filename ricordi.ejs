@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Nostri Momenti 📸✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: linear-gradient(135deg, #fff5f5 0%, #ffe3e8 50%, #f7d6e0 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; color: #5c3d46; text-align: center; }
+    .progress-bar { position: fixed; top: 0; left: 0; width: 40%; height: 6px; background: linear-gradient(90deg, #ff8fa3, #ff4d6d); }
+    .container { max-width: 420px; width: 100%; }
+    h2 { font-size: 1.8rem; color: #4a2833; margin-bottom: 5px; }
+    .subtitle { font-size: 0.9rem; color: #8c5a68; margin-bottom: 25px; }
+    .cards-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
+    .polaroid { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(200, 100, 120, 0.12); cursor: pointer; transition: transform 0.3s; text-align: center; border: 1px solid #ffe3e8; }
+    .polaroid:hover { transform: translateY(-3px); }
+    .icon { font-size: 2rem; margin-bottom: 5px; }
+    .title { font-size: 1.1rem; font-weight: 700; color: #4a2833; }
+    .date { font-size: 0.8rem; color: #a06b78; margin-bottom: 10px; }
+    .text { display: none; font-size: 0.95rem; color: #6c4b55; margin-top: 10px; line-height: 1.5; border-top: 1px dashed #ffd1dc; padding-top: 10px; }
+    .polaroid.active .text { display: block; }
+    .polaroid.active .hint { display: none; }
+    .hint { font-size: 0.75rem; background: #fff0f3; color: #ff4d6d; padding: 4px 12px; border-radius: 12px; display: inline-block; font-weight: 600; }
+    .nav { display: flex; gap: 12px; justify-content: center; }
+    .btn { padding: 14px 24px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+    .btn-main { background: linear-gradient(135deg, #ff8fa3, #ff4d6d); color: white; box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3); }
+    .btn-ghost { background: rgba(255, 255, 255, 0.8); color: #6c4b55; border: 1px solid white; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"></div>
+  <div class="container">
+    <h2>I Nostri Ricordi 📸</h2>
+    <p class="subtitle">Tocca ogni schedina per svelare i ricordi 💌</p>
+
+    <div class="cards-list">
+      <% data.ricordi.forEach(r => { %>
+        <div class="polaroid" onclick="this.classList.toggle('active')">
+          <div class="icon"><%= r.emoji %></div>
+          <div class="title"><%= r.titolo %></div>
+          <div class="date"><%= r.data %></div>
+          <span class="hint">Tocca per aprire 🪄</span>
+          <div class="text"><%= r.testo %></div>
+        </div>
+      <% }); %>
+    </div>
+
+    <div class="nav">
+      <a href="/" class="btn btn-ghost">⬅️ Indietro</a>
+      <a href="/motivi" class="btn btn-main">Continua ✨</a>
+    </div>
+  </div>
+</body>
+</html>
