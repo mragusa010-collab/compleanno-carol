@@ -21,11 +21,78 @@
     h2 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: #ff4d6d; margin-bottom: 10px; }
     .intro-text { font-size: 0.95rem; color: #6c4b55; line-height: 1.5; margin-bottom: 25px; }
 
+    /* BOX PIN DI SBLOCCO */
+    .pin-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px 20px;
+      box-shadow: 0 10px 25px rgba(220, 100, 130, 0.15);
+      border: 2px solid white;
+      margin-bottom: 35px;
+      transition: all 0.5s ease;
+    }
+
+    .pin-card .lock-icon { font-size: 3rem; margin-bottom: 10px; }
+    .pin-card h3 { font-family: 'Sacramento', cursive; font-size: 2.2rem; color: #ff4d6d; margin-bottom: 5px; }
+    .pin-card p { font-size: 0.9rem; color: #6c4b55; margin-bottom: 15px; }
+
+    .pin-input-group {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .pin-input {
+      width: 100%;
+      max-width: 200px;
+      padding: 12px;
+      font-size: 1.2rem;
+      text-align: center;
+      letter-spacing: 4px;
+      border: 2px solid #ffb3c1;
+      border-radius: 12px;
+      outline: none;
+      color: #ff4d6d;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .pin-input:focus { border-color: #ff4d6d; }
+
+    .btn-unlock {
+      background: linear-gradient(135deg, #ff8fa3, #ff4d6d);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
+    }
+
+    .hint-text {
+      font-size: 0.82rem;
+      color: #88626e;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    .error-msg {
+      color: #d81159;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      display: none;
+      font-weight: 600;
+    }
+
     /* EFFETTO LETTERA / CARD FLIP */
     .letter-container {
       perspective: 1000px;
       margin-bottom: 35px;
-      cursor: pointer;
+      display: none; /* Inizialmente nascosta finché non inserisce il PIN */
     }
     
     .flip-card {
@@ -56,31 +123,15 @@
       border: 2px solid white;
     }
 
-    /* Faccia Anteriore della Lettera */
     .card-front {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
     }
 
-    .card-front .envelope-icon {
-      font-size: 4rem;
-      margin-bottom: 15px;
-      animation: pulse 2s infinite;
-    }
+    .card-front .envelope-icon { font-size: 4rem; margin-bottom: 15px; animation: pulse 2s infinite; }
+    .card-front h3 { font-family: 'Sacramento', cursive; font-size: 2.2rem; color: #ff4d6d; margin-bottom: 8px; }
+    .card-front p { font-size: 0.88rem; color: #88626e; }
 
-    .card-front h3 {
-      font-family: 'Sacramento', cursive;
-      font-size: 2.2rem;
-      color: #ff4d6d;
-      margin-bottom: 8px;
-    }
-
-    .card-front p {
-      font-size: 0.88rem;
-      color: #88626e;
-    }
-
-    /* Faccia Posteriore della Lettera (Testo vero e proprio) */
     .card-back {
       background: #ffffff;
       transform: rotateY(180deg);
@@ -150,10 +201,25 @@
 
   <main class="container">
     <h2>Le Nostre Foto 📸</h2>
-    <p class="intro-text">Prima di guardare i nostri scatti, tocca la busta qui sotto... ❤️</p>
+    <p class="intro-text">Per leggere la lettera segreta inserisci il PIN di sblocco... ❤️</p>
 
-    <div class="letter-container" onclick="flipCard(this.querySelector('.flip-card'))">
-      <div class="flip-card">
+    <div class="pin-card" id="pin-box">
+      <div class="lock-icon">🔒</div>
+      <h3>Lettera Protetto</h3>
+      <p>Inserisci il PIN a 6 cifre per sbloccare:</p>
+      
+      <div class="pin-input-group">
+        <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="******" pattern="\d*">
+      </div>
+      
+      <button class="btn-unlock" onclick="checkPin()">Sblocca 🔑</button>
+      
+      <p class="error-msg" id="error-msg">PIN errato! Riprova 😉</p>
+      <p class="hint-text">💡 Suggerimento: La data in cui ci siamo conosciuti (GGMMAA)</p>
+    </div>
+
+    <div class="letter-container" id="letter-box" onclick="flipCard(this.querySelector('.flip-card'))">
+      <div class="flip-card" id="flip-card-element">
         
         <div class="card-front">
           <div class="envelope-icon">💌</div>
@@ -165,7 +231,7 @@
           <h3>PREMESSA</h3>
           <p>Ci siamo conosciuti esattamente il 4 Luglio 2025 e quella notte, alle 04:36, ti ho scritto il mio primissimo messaggio. Ricordo ancora l'agitazione prima di inviarlo: ho pensato a qualsiasi scusa, anche la più futile e assurda, pur di trovare un pretesto per iniziare a parlarti. Alla fine ti ho chiesto se avevi il mio accendino, pur sapendo benissimo che era riposto al sicuro nella mia pochette... ma la verità è che dovevo assolutamente trovare un modo per entrare nella tua vita.</p>
           <p>Da quella notte non c'è stato un solo giorno in cui non ci siamo scritti. Messaggio dopo messaggio, nottata dopo nottata, abbiamo iniziato a conoscerci davvero, abbattendo ogni difesa fino ad arrivare alle sfumature più intime e vere del nostro carattere. Già da quella prima chat avevo chiarissimo nel cuore che non saresti stata una persona qualunque per me: sapevo che avresti stravolto le mie giornate e che avremmo condiviso un mare di ricordi, risate e momenti preziosi.</p>
-          <p>Rivedere tutto il percorso fatto insieme mi fa capire quanto ogni singolo istante sia stato unico. Detto questo, ci tenevo a scriverti queste parole per ricordarti una cosa semplice ma immensa: per me sei fondamentale, hai un posto speciale che nessun altro potrà mai occupare e lo rimarrai sempre, comunque vada a finire. ❤️</p>
+          <p>Rivedere tutto il percorso fatto insieme mi fa capire quanto ogni singolo istante sia stato unico. Detto questo, ci tenevo a scriverti queste parole per ricordarti una cosa semplice ma immensa: per me sei fundamental, hai un posto speciale che nessun altro potrà mai occupare e lo rimarrai sempre, comunque vada a finire. ❤️</p>
         </div>
 
       </div>
@@ -189,5 +255,36 @@
   </main>
 
   <script src="/js/script.js"></script>
+  <script>
+    function checkPin() {
+      const pinCorrect = "040726";
+      const userPin = document.getElementById('pin-input').value;
+      const errorMsg = document.getElementById('error-msg');
+      const pinBox = document.getElementById('pin-box');
+      const letterBox = document.getElementById('letter-box');
+      const flipCardElem = document.getElementById('flip-card-element');
+
+      if (userPin === pinCorrect) {
+        errorMsg.style.display = "none";
+        pinBox.style.display = "none";
+        letterBox.style.display = "block";
+        
+        // Gira automaticamente la lettera una volta sbloccata
+        setTimeout(() => {
+          flipCardElem.classList.add('flipped');
+        }, 300);
+      } else {
+        errorMsg.style.display = "block";
+        document.getElementById('pin-input').value = "";
+      }
+    }
+
+    // Permette di premere Invio sulla tastiera per confermare il PIN
+    document.getElementById('pin-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        checkPin();
+      }
+    });
+  </script>
 </body>
 </html>
