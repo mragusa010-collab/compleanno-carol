@@ -1,34 +1,70 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-// Gestione dei file statici (per servire immagini, css e js da /public)
-app.use(express.static('public'));
-const siteData = {
-  nome: "Piccola",
-  ricordi: [
-    { id: 1, titolo: "Il nostro primo sguardo", data: "Quel giorno speciale", testo: "Ti ricordi quella sera in cui eravamo all'Airone a parlare di Marche e la tipa che non si volevano fare? Quella è la prima volta in cui ho capito che saresti stata una delle persone più importanti della mia vita.", emoji: "✨" },
-    { id: 2, titolo: "I primi appuntamenti", data: "Giorni più belli della mia vita", testo: "Non è mai successo con nessuna che io lasciassi il gruppo dai Milano per venire con una ragazza in spiaggia...", emoji: "🌙" },
-    { id: 3, titolo: "Le nostre serate", data: "Ogni singolo giorno", testo: "Ma ti ricordi quando la sera non potevo uscire e quindi obbligavi le tue amiche a venire con te sotto casa mia per vedermi e passare del tempo con me!", emoji: "💖" }
-  ],
-  motivi: [
-    { id: 1, titolo: "Il tuo sorriso contagioso", testo: "Hai il potere magico di illuminare anche la giornata più buia e farmi felice all'istante.", icona: "🌸" },
-    { id: 2, titolo: "Come mi fai sentire a casa", testo: "Con te al mio fianco posso essere me stesso al 100%, senza filtri né paure.", icona: "🧸" },
-    { id: 3, titolo: "Le nostre avventure insieme", testo: "Ogni piccolo momento con te diventa un ricordo prezioso che custodisco nel cuore.", icona: "🎀" }
-  ],
-  fotoPremessa: [
-    { url: "/img/foto1.jpg", didascalia: "Le serate a parlare fuori da casa" },
-    { url: "/img/foto2.jpg", didascalia: "Le dormite sulla spiaggia per mano" },
-    { url: "/img/foto3.jpg", didascalia: "I discorsi filosofici che facevamo in spiaggia" }
-  ]
-};
-// Rotte dell'applicazione
-app.get('/', (req, res) => res.render('index', { data: siteData }));
-app.get('/ricordi', (req, res) => res.render('ricordi', { data: siteData }));
-app.get('/motivi', (req, res) => res.render('motivi', { data: siteData }));
-app.get('/premessa', (req, res) => res.render('premessa', { data: siteData }));
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✨ Server attivo sulla porta ${PORT}`);
+// Funzioni esistenti per la gestione della pagina
+function flipCard(card) {
+  card.classList.toggle('flipped');
+}
+
+function toggleReason(item) {
+  item.classList.toggle('open');
+}
+
+// Configurazione per il pulsante "No"
+const frasiNo = [
+  "No 😜",
+  "Riprova! 😅",
+  "Hai un altro tentativo... 🎯",
+  "Sicura? 🤔",
+  "Ma come no?! 😭",
+  "Dai dai premi SÌ! 💖",
+  "Ops, sono veloce! ⚡",
+  "Arrenditi! 😂",
+  "Sì è la risposta giusta 👈"
+];
+
+let tentativiNo = 0;
+let scalaNo = 1;
+
+// Funzione per spostare, rimpicciolire e cambiare testo al tasto "No"
+function runAway(e) {
+  if (e) e.preventDefault();
+
+  const btnNo = document.getElementById('btn-no');
+  // Supporta sia la classe 'glass-card' che 'question-card'
+  const container = document.querySelector('.glass-card') || document.querySelector('.question-card');
+  if (!btnNo || !container) return;
+
+  // 1. Aggiorna il testo in base ai tentativi
+  tentativiNo++;
+  if (tentativiNo < frasiNo.length) {
+    btnNo.innerText = frasiNo[tentativiNo];
+  } else {
+    btnNo.innerText = frasiNo[frasiNo.length - 1];
+  }
+
+  // 2. Rimpicciolisce progressivamente il tasto (fino a un minimo di 0.35)
+  if (scalaNo > 0.35) {
+    scalaNo -= 0.08;
+  }
+
+  // 3. Calcola la posizione casuale all'interno del contenitore
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = btnNo.getBoundingClientRect();
+  const maxX = (containerRect.width / 2) - (btnRect.width / 2) - 15;
+  const maxY = (containerRect.height / 2) - (btnRect.height / 2) - 15;
+  const randomX = (Math.random() * maxX * 2) - maxX;
+  const randomY = (Math.random() * maxY * 2) - maxY;
+
+  // 4. Applica lo spostamento e la riduzione di scala
+  btnNo.style.position = 'absolute';
+  btnNo.style.transform = `translate(${randomX}px, ${randomY}px) scale(${scalaNo})`;
+}
+
+// Inizializzazione degli eventi al caricamento della pagina
+document.addEventListener('DOMContentLoaded', () => {
+  const btnNo = document.getElementById('btn-no');
+  if (btnNo) {
+    // Gestisce sia il passaggio del mouse su PC che il tocco su dispositivi mobili
+    btnNo.addEventListener('mouseover', runAway);
+    btnNo.addEventListener('click', runAway);
+    btnNo.addEventListener('touchstart', runAway);
+  }
 });
