@@ -215,7 +215,7 @@
       <button class="btn-unlock" onclick="checkPin()">Sblocca 🔑</button>
       
       <p class="error-msg" id="error-msg">PIN errato! Riprova 😉</p>
-      <p class="hint-text">💡 Suggerimento: La data in cui ci siamo conosciuti (GGMMAA)</p>
+      <p class="hint-text">💡 Suggerimento: La data del nostro primo bacio (GGMMAA)</p>
     </div>
 
     <div class="letter-container" id="letter-box" onclick="flipCard(this.querySelector('.flip-card'))">
@@ -256,7 +256,7 @@
   <script src="/js/script.js"></script>
   <script>
     function checkPin() {
-      const pinCorrect = "040726";
+      const pinCorrect = "280726";
       const userPin = document.getElementById('pin-input').value;
       const errorMsg = document.getElementById('error-msg');
       const pinBox = document.getElementById('pin-box');
