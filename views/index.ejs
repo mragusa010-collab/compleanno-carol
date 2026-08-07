@@ -123,7 +123,7 @@
     <p class="error-msg" id="site-error-msg">PIN errato! Riprova ❤️</p>
     <button class="btn" id="btn-unlock" onclick="checkSitePin()">Entra 💖</button>
     
-    <p class="hint-text">💡 Suggerimento: La data del nostro primo bacio (GGMMAA)</p>
+    <p class="hint-text">💡 Suggerimento: La data del giorno in cui ci siamo conosciuti (GGMMAA)</p>
   </main>
 
   <main class="glass-card" id="main-content">
@@ -159,7 +159,7 @@
     }
 
     function checkSitePin() {
-      const pinCorrect = "280726";
+      const pinCorrect = "040726";
       const userPin = document.getElementById('site-pin-input').value;
       const errorMsg = document.getElementById('site-error-msg');
       const pinBox = document.getElementById('site-pin-box');
