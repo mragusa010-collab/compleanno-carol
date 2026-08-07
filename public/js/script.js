@@ -28,12 +28,9 @@ function runAway(e) {
   if (e) e.preventDefault();
 
   const btnNo = document.getElementById('btn-no');
-  // Supporta sia la classe 'glass-card' che 'question-card'
   const container = document.querySelector('.glass-card') || document.querySelector('.question-card');
-
   if (!btnNo || !container) return;
 
-  // 1. Aggiorna il testo in base ai tentativi
   tentativiNo++;
   if (tentativiNo < frasiNo.length) {
     btnNo.innerText = frasiNo[tentativiNo];
@@ -41,54 +38,82 @@ function runAway(e) {
     btnNo.innerText = frasiNo[frasiNo.length - 1];
   }
 
-  // 2. Rimpicciolisce progressivamente il tasto (fino a un minimo di 0.35)
   if (scalaNo > 0.35) {
     scalaNo -= 0.08;
   }
 
-  // 3. Calcola la posizione casuale all'interno del contenitore
   const containerRect = container.getBoundingClientRect();
   const btnRect = btnNo.getBoundingClientRect();
-
   const maxX = (containerRect.width / 2) - (btnRect.width / 2) - 15;
   const maxY = (containerRect.height / 2) - (btnRect.height / 2) - 15;
-
   const randomX = (Math.random() * maxX * 2) - maxX;
   const randomY = (Math.random() * maxY * 2) - maxY;
 
-  // 4. Applica lo spostamento e la riduzione di scala
   btnNo.style.position = 'absolute';
   btnNo.style.transform = `translate(${randomX}px, ${randomY}px) scale(${scalaNo})`;
 }
 
-// Generazione dei cuoricini animati nello sfondo
-function createFloatingHearts() {
-  const container = document.getElementById('hearts-container');
-  if (!container) return;
+// ===== WIDGET MUSICALE CONDIVISO TRA TUTTE LE PAGINE =====
+function setupMusicWidget() {
+  const audio = document.getElementById('bg-music');
+  const vinyl = document.getElementById('vinyl-disk');
+  const widget = document.getElementById('music-widget');
+  if (!audio || !widget) return;
 
-  const heartEmojis = ['💖', '🌸', '✨', '🧸', '🎀', '💌'];
+  widget.addEventListener('click', () => toggleMusic(audio, vinyl));
+  window.addEventListener('beforeunload', () => saveMusicState(audio));
+  setInterval(() => saveMusicState(audio), 2000);
 
-  for (let i = 0; i < 15; i++) {
-    const heart = document.createElement('div');
-    heart.className = 'floating-heart';
-    heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-    heart.style.left = `${Math.random() * 100}%`;
-    heart.style.animationDuration = `${6 + Math.random() * 6}s`;
-    heart.style.animationDelay = `${Math.random() * 5}s`;
-    heart.style.fontSize = `${0.9 + Math.random() * 0.8}rem`;
-    container.appendChild(heart);
+  // Se la musica era già stata sbloccata in una pagina precedente, riprende da dove era rimasta
+  if (localStorage.getItem('musicUnlocked') === 'true') {
+    resumeMusic(audio, vinyl, widget);
   }
+}
+
+function resumeMusic(audio, vinyl, widget) {
+  widget.style.display = 'flex';
+  const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+  audio.currentTime = savedTime;
+
+  if (localStorage.getItem('musicPlaying') === 'true') {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        vinyl.style.animationPlayState = 'running';
+      }).catch(() => {
+        vinyl.style.animationPlayState = 'paused';
+      });
+    }
+  }
+}
+
+function toggleMusic(audio, vinyl) {
+  if (audio.paused) {
+    audio.play().then(() => {
+      vinyl.style.animationPlayState = 'running';
+      saveMusicState(audio);
+    }).catch(err => console.error('Errore play:', err));
+  } else {
+    audio.pause();
+    vinyl.style.animationPlayState = 'paused';
+    saveMusicState(audio);
+  }
+}
+
+function saveMusicState(audio) {
+  if (!audio) return;
+  localStorage.setItem('musicTime', audio.currentTime);
+  localStorage.setItem('musicPlaying', (!audio.paused).toString());
 }
 
 // Inizializzazione degli eventi al caricamento della pagina
 document.addEventListener('DOMContentLoaded', () => {
-  createFloatingHearts();
-
   const btnNo = document.getElementById('btn-no');
   if (btnNo) {
-    // Gestisce sia il passaggio del mouse su PC che il tocco su dispositivi mobili
     btnNo.addEventListener('mouseover', runAway);
     btnNo.addEventListener('click', runAway);
     btnNo.addEventListener('touchstart', runAway);
   }
+
+  setupMusicWidget();
 });
