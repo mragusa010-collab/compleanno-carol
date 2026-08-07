@@ -123,7 +123,7 @@
     <p class="error-msg" id="site-error-msg">PIN errato! Riprova ❤️</p>
     <button class="btn" id="btn-unlock" onclick="checkSitePin()">Entra 💖</button>
     
-    <p class="hint-text">💡 Suggerimento: La data del giorno in cui ci siamo conosciuti (GGMMAA)</p>
+    <p class="hint-text">💡 Suggerimento: La data del nostro primo bacio (GGMMAA)</p>
   </main>
 
   <main class="glass-card" id="main-content">
@@ -133,7 +133,7 @@
     <a href="/ricordi" class="btn">Inizia il viaggio ✨</a>
   </main>
 
-  <div class="music-widget" id="music-widget" onclick="togglePlay()">
+  <div class="music-widget" id="music-widget">
     <div class="music-info">
       <span class="music-title">Sparks ✨</span>
       <span class="music-artist">Coldplay</span>
@@ -147,8 +147,6 @@
   <script src="/js/script.js"></script>
   <script>
     const audio = document.getElementById('bg-music');
-    const vinyl = document.getElementById('vinyl-disk');
-    const widget = document.getElementById('music-widget');
 
     // Pre-carica l'audio non appena l'utente tocca il campo del PIN o lo schermo
     document.body.addEventListener('touchstart', unlockAudioContext, { once: true });
@@ -161,7 +159,7 @@
     }
 
     function checkSitePin() {
-      const pinCorrect = "040726";
+      const pinCorrect = "280726";
       const userPin = document.getElementById('site-pin-input').value;
       const errorMsg = document.getElementById('site-error-msg');
       const pinBox = document.getElementById('site-pin-box');
@@ -174,38 +172,28 @@
         mainContent.style.display = "block";
         progressBar.style.width = "20%";
 
+        // Sblocca e avvia la musica: da qui in poi resta sincronizzata su tutte le pagine
+        localStorage.setItem('musicUnlocked', 'true');
+
+        const vinyl = document.getElementById('vinyl-disk');
+        const widget = document.getElementById('music-widget');
         widget.style.display = "flex";
-        
-        // Avvia la riproduzione contestualmente al click verificato dell'utente
-        startPlayback();
+
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            vinyl.style.animationPlayState = "running";
+            saveMusicState(audio);
+          }).catch(error => {
+            console.warn("Riproduzione automatica bloccata:", error);
+            vinyl.style.animationPlayState = "paused";
+          });
+        }
       } else {
         errorMsg.style.display = "block";
         document.getElementById('site-pin-input').value = "";
-      }
-    }
-
-    function startPlayback() {
-      audio.currentTime = 0;
-      const playPromise = audio.play();
-
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          vinyl.style.animationPlayState = "running";
-        }).catch(error => {
-          console.warn("Riproduzione automatica bloccata:", error);
-          vinyl.style.animationPlayState = "paused";
-        });
-      }
-    }
-
-    function togglePlay() {
-      if (audio.paused) {
-        audio.play().then(() => {
-          vinyl.style.animationPlayState = "running";
-        }).catch(err => console.error("Errore play:", err));
-      } else {
-        audio.pause();
-        vinyl.style.animationPlayState = "paused";
       }
     }
 
