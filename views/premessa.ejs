@@ -228,7 +228,7 @@
         </div>
 
         <div class="card-back">
-          <h3>PREMESSA</h3>
+          <h3>DAL CUORE</h3>
           <p>Ci siamo conosciuti esattamente il 4 Luglio 2025 e quella notte, alle 04:36, ti ho scritto il mio primissimo messaggio. Ricordo ancora l'agitazione prima di inviarlo: ho pensato a qualsiasi scusa, anche la più futile e assurda, pur di trovare un pretesto per iniziare a parlarti. Alla fine ti ho chiesto se avevi il mio accendino, pur sapendo benissimo che era riposto al sicuro nella mia pochette... ma la verità è che dovevo assolutamente trovare un modo per entrare nella tua vita.</p>
           <p>Da quella notte non c'è stato un solo giorno in cui non ci siamo scritti. Messaggio dopo messaggio, nottata dopo nottata, abbiamo iniziato a conoscerci davvero, abbattendo ogni difesa fino ad arrivare alle sfumature più intime e vere del nostro carattere. Già da quella prima chat avevo chiarissimo nel cuore che non saresti stata una persona qualunque per me: sapevo che avresti stravolto le mie giornate e che avremmo condiviso un mare di ricordi, risate e momenti preziosi.</p>
           <p>Rivedere tutto il percorso fatto insieme mi fa capire quanto ogni singolo istante sia stato unico. Detto questo, ci tenevo a scriverti queste parole per ricordarti una cosa semplice ma immensa: per me sei fundamental, hai un posto speciale che nessun altro potrà mai occupare e lo rimarrai sempre, comunque vada a finire. ❤️</p>
@@ -252,3 +252,38 @@
       <a href="/motivi" class="btn btn-ghost">⬅️ Indietro</a>
     </div>
   </main>
+
+  <script src="/js/script.js"></script>
+  <script>
+    function checkPin() {
+      const pinCorrect = "040726";
+      const userPin = document.getElementById('pin-input').value;
+      const errorMsg = document.getElementById('error-msg');
+      const pinBox = document.getElementById('pin-box');
+      const letterBox = document.getElementById('letter-box');
+      const flipCardElem = document.getElementById('flip-card-element');
+
+      if (userPin === pinCorrect) {
+        errorMsg.style.display = "none";
+        pinBox.style.display = "none";
+        letterBox.style.display = "block";
+        
+        // Gira automaticamente la lettera una volta sbloccata
+        setTimeout(() => {
+          flipCardElem.classList.add('flipped');
+        }, 300);
+      } else {
+        errorMsg.style.display = "block";
+        document.getElementById('pin-input').value = "";
+      }
+    }
+
+    // Permette di premere Invio sulla tastiera per confermare il PIN
+    document.getElementById('pin-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        checkPin();
+      }
+    });
+  </script>
+</body>
+</html>
