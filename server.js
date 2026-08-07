@@ -1,15 +1,11 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 // Gestione dei file statici (per servire immagini, css e js da /public)
 app.use(express.static('public'));
-
 const siteData = {
   nome: "Piccola",
   ricordi: [
@@ -28,15 +24,11 @@ const siteData = {
     { url: "/img/foto3.jpg", didascalia: "I discorsi filosofici che facevamo in spiaggia" }
   ]
 };
-
 // Rotte dell'applicazione
 app.get('/', (req, res) => res.render('index', { data: siteData }));
 app.get('/ricordi', (req, res) => res.render('ricordi', { data: siteData }));
 app.get('/motivi', (req, res) => res.render('motivi', { data: siteData }));
 app.get('/premessa', (req, res) => res.render('premessa', { data: siteData }));
-app.get('/domanda', (req, res) => res.render('domanda', { data: siteData }));
-app.get('/festa', (req, res) => res.render('festa', { data: siteData }));
-
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✨ Server attivo sulla porta ${PORT}`);
 });
